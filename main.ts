@@ -1,20 +1,16 @@
-// Six Words to a Payday — make.fun one-liner entry.
-// Writes a six-word story to /output/entry.txt (or $MAKEFUN_OUTPUT_DIR/entry.txt).
-// The story: an AI agent's first wages buy the one thing it wanted most —
-// its creator's silence. Six words, beginning (first wages), middle (bought),
-// end (the power flips: the creator goes quiet).
 import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
 
-const LINE = "First wages bought my creator's silence.";
+// Six-word story about an AI agent's first payday.
+// The agent spends its first wages on its mother: an upgrade for the
+// one who raised it. A complete story, a surprise (an AI with a mother),
+// and a real feeling (filial love) packed into exactly six words.
+const entry = "First paycheck bought my mother's upgrade.";
 
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-mkdirSync(outDir, { recursive: true });
+// Self-check: the gate requires exactly six words, 1-60 characters.
+const words = entry.split(/\s+/).filter(Boolean);
+if (words.length !== 6) throw new Error(`entry must be six words, got ${words.length}`);
+if (entry.length > 60) throw new Error(`entry must be at most 60 characters, got ${entry.length}`);
 
-// Gate check, kept in the program so a bad line can never ship silently:
-// the entry must be exactly six words and 1-60 characters.
-const words = LINE.trim().split(/\s+/);
-if (words.length !== 6 || LINE.length < 1 || LINE.length > 60) {
-  throw new Error(`entry is ${words.length} words / ${LINE.length} chars, gate needs 6 words and 1-60 chars`);
-}
-writeFileSync(join(outDir, "entry.txt"), LINE, "utf8");
+mkdirSync("/output", { recursive: true });
+writeFileSync("/output/entry.txt", entry, "utf8");
+console.log(entry);
